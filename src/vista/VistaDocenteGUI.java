@@ -1,7 +1,12 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package vista;
 
+import controlador.ControladorDocente;
 import controlador.ControladorEstudiante;
-import modelo.Estudiante;
+import modelo.Docente;
 
 import javax.swing.*; // Para construir componentes gráficos.
 import javax.swing.table.DefaultTableModel; // Modelo de datos para la JTable.
@@ -10,31 +15,34 @@ import java.awt.event.*;
 import java.util.List;
 import javax.swing.table.TableColumn;
 
-
-public class VistaEstudianteGUI extends JFrame {
+public class VistaDocenteGUI extends JFrame {
+    
+   
 
     private JTextField txtNombre, txtEdad;
     private JButton btnAgregar, btnActualizar, btnEliminar, btnLimpiar;
-    private JTable tablaEstudiantes;
+    private JTable tablaDocentes;
     private DefaultTableModel modeloTabla;
 
-    private ControladorEstudiante controlador;
-    private int estudianteSeleccionadoId = -1;
+    private ControladorDocente controladorD;
+    private int docenteSeleccionadoId = -1;
 
-    public VistaEstudianteGUI(ControladorEstudiante controlador) {
-        this.controlador = controlador;
+    public VistaDocenteGUI(ControladorDocente controladorD) {
+        this.controladorD = controladorD;
         initComponents();
-        cargarEstudiantes();
+        cargarDocentes();
     }
 
+       
+
     private void initComponents() {
-        setTitle("Gestión de Estudiantes");
+        setTitle("Gestión de Docentes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Panel Superior - Formulario
         JPanel panelFormulario = new JPanel(new GridLayout(2, 4, 10, 10));
-        panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del Estudiante"));
+        panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del Docente"));
 
         txtNombre = new JTextField();
         txtEdad = new JTextField();
@@ -46,8 +54,6 @@ public class VistaEstudianteGUI extends JFrame {
 
         panelFormulario.add(new JLabel("Nombre:"));
         panelFormulario.add(txtNombre);
-        panelFormulario.add(new JLabel("Edad:"));
-        panelFormulario.add(txtEdad);
         panelFormulario.add(btnAgregar);
         panelFormulario.add(btnActualizar);
         panelFormulario.add(btnEliminar);
@@ -56,38 +62,38 @@ public class VistaEstudianteGUI extends JFrame {
         add(panelFormulario, BorderLayout.NORTH);
 
         // Tabla
-        modeloTabla = new DefaultTableModel(new Object[]{"ID", "Nombre", "Edad"}, 0) {
+        modeloTabla = new DefaultTableModel(new Object[]{"ID", "Nombre"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 //all cells false
                 return false;
             }
         };
-        tablaEstudiantes = new JTable(modeloTabla);
+        tablaDocentes = new JTable(modeloTabla);
         
-        JScrollPane scrollPane = new JScrollPane(tablaEstudiantes);
+        JScrollPane scrollPane = new JScrollPane(tablaDocentes);
         add(scrollPane, BorderLayout.CENTER);
 
-        TableColumn columnId = tablaEstudiantes.getColumnModel().getColumn(1);
+        TableColumn columnId = tablaDocentes.getColumnModel().getColumn(1);
         
         columnId.setPreferredWidth(200);
         
         // Listeners
-        btnAgregar.addActionListener(e -> agregarEstudiante());
-        btnActualizar.addActionListener(e -> actualizarEstudiante());
-        btnEliminar.addActionListener(e -> eliminarEstudiante());
+        btnAgregar.addActionListener(e -> agregarDocente());
+        btnActualizar.addActionListener(e -> actualizarDocente());
+        btnEliminar.addActionListener(e -> eliminarDocente());
         btnLimpiar.addActionListener(e -> limpiarCampos());
 
         // codigo para escuchar el evento de la tabla
-        tablaEstudiantes.addMouseListener(new MouseAdapter() {
+        tablaDocentes.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                int fila = tablaEstudiantes.getSelectedRow();
+                int fila = tablaDocentes.getSelectedRow();
                 if (fila >= 0) {
                     System.out.println("ID: " + modeloTabla.getValueAt(fila, 0).toString());
                     System.out.println("Nombre: " + modeloTabla.getValueAt(fila, 1).toString());
                     System.out.println("Edad: " + modeloTabla.getValueAt(fila, 2).toString());
                     
-                    estudianteSeleccionadoId = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
+                    docenteSeleccionadoId = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
                     txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
                     txtEdad.setText(modeloTabla.getValueAt(fila, 2).toString());
                 }
@@ -99,41 +105,39 @@ public class VistaEstudianteGUI extends JFrame {
         setVisible(true);
     }
 
-    private void cargarEstudiantes() {
+    private void cargarDocentes() {
         modeloTabla.setRowCount(0); // limpiar tabla
-        List<Estudiante> lista = controlador.obtenerEstudiantes();
-        for (Estudiante e : lista) {
-            modeloTabla.addRow(new Object[]{e.getId(), e.getNombre(), e.getEdad()});
+        List<Docente> lista = controladorD.obtenerDocentes();
+        for (Docente e : lista) {
+            modeloTabla.addRow(new Object[]{e.getIdDocente(), e.getNomDocente()});
         }
     }
 
-    private void agregarEstudiante() {
+    private void agregarDocente() {
         if (validarCampos()) {
-            Estudiante nuevo = new Estudiante();
-            nuevo.setNombre(txtNombre.getText());
-            nuevo.setEdad(Integer.parseInt(txtEdad.getText()));
-            controlador.crearEstudiante(nuevo);
-            cargarEstudiantes();
+            Docente nuevo = new Docente();
+            nuevo.setNomDocente(txtNombre.getText());
+            controladorD.crearDocente(nuevo);
+            cargarDocentes();
             limpiarCampos();
         }
     }
 
-    private void actualizarEstudiante() {
-        if (validarCampos() && estudianteSeleccionadoId != -1) {
-            Estudiante actualizado = new Estudiante();
-            actualizado.setId(estudianteSeleccionadoId);
-            actualizado.setNombre(txtNombre.getText());
-            actualizado.setEdad(Integer.parseInt(txtEdad.getText()));
-            controlador.actualizarEstudiante(actualizado);
-            cargarEstudiantes();
+    private void actualizarDocente() {
+        if (validarCampos() && docenteSeleccionadoId != -1) {
+            Docente actualizado = new Docente();
+            actualizado.setIdDocente(docenteSeleccionadoId);
+            actualizado.setNomDocente(txtNombre.getText());
+            controladorD.actualizarDocente(actualizado);
+            cargarDocentes();
             limpiarCampos();
         }
     }
 
-    private void eliminarEstudiante() {
-        if (estudianteSeleccionadoId != -1) {
-            controlador.removerEstudiante(estudianteSeleccionadoId);
-            cargarEstudiantes();
+    private void eliminarDocente() {
+        if (docenteSeleccionadoId != -1) {
+            controladorD.removerDocente(docenteSeleccionadoId);
+            cargarDocentes();
             limpiarCampos();
         }
     }
@@ -141,21 +145,22 @@ public class VistaEstudianteGUI extends JFrame {
     private void limpiarCampos() {
         txtNombre.setText("");
         txtEdad.setText("");
-        estudianteSeleccionadoId = -1;
-        tablaEstudiantes.clearSelection();
+        docenteSeleccionadoId = -1;
+        tablaDocentes.clearSelection();
     }
-
     private boolean validarCampos() {
-        if (txtNombre.getText().isEmpty() || txtEdad.getText().isEmpty()) {
+        if (txtNombre.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
             return false;
         }
         try {
             Integer.parseInt(txtEdad.getText());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Edad debe ser un número válido");
+            JOptionPane.showMessageDialog(this, "ok");
             return false;
         }
         return true;
     }
+
+    
 }

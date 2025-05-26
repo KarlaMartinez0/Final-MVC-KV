@@ -7,10 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author g.perezmoreno
- */
+
 public class Estudiante {
 
     private int id;
@@ -43,9 +40,9 @@ public class Estudiante {
 
     public static void insertarEstudiante(Estudiante estudiante) {
         Connection conexion = ConexionDatabase.getConnection();
-        //String sql = "INSERT INTO estudiante (nombre, edad) VALUES (?, ?)";
+        String sql = "INSERT INTO estudiante (nombre, edad) VALUES (?, ?)";
 
-        String sql = "CALL insertar_estudiante(?, ?)";
+        //String sql = "CALL insertar_estudiante(?, ?)";
 
         try (PreparedStatement statement = conexion.prepareStatement(sql)) {
             statement.setString(1, estudiante.getNombre());
@@ -63,8 +60,8 @@ public class Estudiante {
 
     public static List<Estudiante> obtenerTodosLosEstudiantes() {
         List<Estudiante> listaEstudiantes = new ArrayList<>();
-        //String sql = "SELECT id, nombre, edad FROM estudiante";
-        String sql = "SELECT id, nombre, edad FROM get_estudiantes";
+        String sql = "SELECT id, nombre, edad FROM estudiante";
+        //String sql = "SELECT id, nombre, edad FROM get_estudiantes";
 
         try {
             Connection conexion = ConexionDatabase.getConnection();

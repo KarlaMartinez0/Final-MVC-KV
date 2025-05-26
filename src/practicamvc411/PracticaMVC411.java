@@ -4,18 +4,19 @@
  */
 package practicamvc411;
 
+import controlador.ControladorDocente;
 import controlador.ControladorEstudiante;
 // import java.util.List;
 import javax.swing.SwingUtilities;
+import modelo.Docente;
 import modelo.Estudiante;
+import vista.VistaDocente;
+import vista.VistaDocenteGUI;
 // import vista.Prueba;
 import vista.VistaEstudiante;
 import vista.VistaEstudianteGUI;
 
-/**
- *
- * @author g.perezmoreno
- */
+
 public class PracticaMVC411 {
 
     /**
@@ -43,14 +44,17 @@ public class PracticaMVC411 {
 
         // vista.mostrarDetallesEstudiantes(estudiantes);
 
-        Estudiante modelo = new Estudiante();
-        VistaEstudiante vista = new VistaEstudiante();
-        ControladorEstudiante controlador = new ControladorEstudiante(modelo, vista);
+        
+        Docente modelo = new Docente();
+        VistaDocente vista = new VistaDocente();
+        ControladorDocente controlador = new ControladorDocente(modelo, vista);
         
         SwingUtilities.invokeLater(() -> {
-            new VistaEstudianteGUI(controlador);
+            new VistaDocenteGUI(controlador);
         });
         
+    
     }
+    
 
 }

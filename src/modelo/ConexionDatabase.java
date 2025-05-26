@@ -14,10 +14,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- *
- * @author g.perezmoreno
- */
+
 public class ConexionDatabase {
     
     private static Connection conexion;
@@ -57,8 +54,7 @@ public class ConexionDatabase {
             try {
                 conexion.close();
                 System.out.println("Conexion a la base de datos cerrada.");
-            } catch (Exception error) {
-                error.printStackTrace();
+            } catch (SQLException error) {
             }
         }
         
