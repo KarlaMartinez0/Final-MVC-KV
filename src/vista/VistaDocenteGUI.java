@@ -91,12 +91,10 @@ public class VistaDocenteGUI extends JFrame {
                 if (fila >= 0) {
                     System.out.println("ID: " + modeloTabla.getValueAt(fila, 0).toString());
                     System.out.println("Nombre: " + modeloTabla.getValueAt(fila, 1).toString());
-                    System.out.println("Edad: " + modeloTabla.getValueAt(fila, 2).toString());
                     
                     docenteSeleccionadoId = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
                     txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
-                    txtEdad.setText(modeloTabla.getValueAt(fila, 2).toString());
-                }
+                                    }
             }
         });
 

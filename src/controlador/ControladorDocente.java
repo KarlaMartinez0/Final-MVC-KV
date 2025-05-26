@@ -20,7 +20,14 @@ public class ControladorDocente {
         this.modelo = modelo;
         this.vista = vista;
     }
+    public void setNombreDocente(String nombre) {
+        modelo.setNomDocente(nombre);
+    }
 
+    public String getNombreDocente() {
+        return modelo.getNomDocente();
+    }
+       
     public void crearDocente(Docente nuevoDocente){
         nuevoDocente.insertarDocente(nuevoDocente);
         System.out.println("Estudiante creado correctamente!");

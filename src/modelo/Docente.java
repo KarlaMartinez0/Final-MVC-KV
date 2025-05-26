@@ -31,7 +31,7 @@ public class Docente {
     
         public static void insertarDocente(Docente docente) {
         Connection conexion = ConexionDatabase.getConnection();
-        String sql = "INSERT INTO docente (nombre) VALUES (?)";
+        String sql = "INSERT INTO docente (nom_docente) VALUES (?)";
         
         try (PreparedStatement statement = conexion.prepareStatement(sql)) {
             statement.setString(1, docente.getNomDocente());
@@ -44,7 +44,7 @@ public class Docente {
     }  
     public static List<Docente> obtenerTodosLosDocentes() {
         List<Docente> listaDocentes = new ArrayList<>();
-        String sql = "SELECT id, nombre, FROM docente";
+        String sql = "SELECT id_docente, nom_docente FROM docente";
        
 
         try {
@@ -54,8 +54,8 @@ public class Docente {
 
             while (resultado.next()) {
                 Docente docente = new Docente();
-                docente.setIdDocente(resultado.getInt("id"));
-                docente.setNomDocente(resultado.getString("nombre"));
+                docente.setIdDocente(resultado.getInt("id_docente"));
+                docente.setNomDocente(resultado.getString("nom_docente"));
                 
 
                 listaDocentes.add(docente);
@@ -70,7 +70,7 @@ public class Docente {
     
     public static void deleteDocente(int idDocente) {
         Connection conexion = ConexionDatabase.getConnection();
-        String sql = "DELETE FROM docente WHERE id = ?";
+        String sql = "DELETE FROM docente WHERE id_docente = ?";
 
         try (PreparedStatement statement = conexion.prepareStatement(sql)) {
             statement.setInt(1, idDocente);
@@ -85,7 +85,7 @@ public class Docente {
     
     public static void updateDocente(Docente docente) {
         Connection conexion = ConexionDatabase.getConnection();
-        String sql = "UPDATE docente SET nombre = ?, WHERE id = ?";
+        String sql = "UPDATE docente SET nom_docente = ? WHERE id_docente = ?";
 
         try (PreparedStatement statement = conexion.prepareStatement(sql)) {
             statement.setString(1, docente.getNomDocente());
