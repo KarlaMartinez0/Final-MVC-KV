@@ -8,7 +8,6 @@ import java.util.List;
 import modelo.Estudiante;
 import vista.VistaEstudiante;
 
-
 public class ControladorEstudiante {
 
     private Estudiante modelo;
@@ -31,9 +30,9 @@ public class ControladorEstudiante {
         modelo.setEdad(edad);
     }
 
-    //public int getEdadEstudiante() {
-     //   return modelo.getEdad();
-    //}
+    public int getEdadEstudiante() {
+        return modelo.getEdad();
+    }
 
     public void crearEstudiante(Estudiante nuevoEstudiante){
         nuevoEstudiante.insertarEstudiante(nuevoEstudiante);
