@@ -15,6 +15,7 @@ import vista.VistaDocenteGUI;
 // import vista.Prueba;
 import vista.VistaEstudiante;
 import vista.VistaEstudianteGUI;
+import vista.VistaPrincipal;
 
 
 public class PracticaMVC411 {
@@ -45,12 +46,9 @@ public class PracticaMVC411 {
         // vista.mostrarDetallesEstudiantes(estudiantes);
 
         
-        Docente modelo = new Docente();
-        VistaDocente vista = new VistaDocente();
-        ControladorDocente controlador = new ControladorDocente(modelo, vista);
-        
+       
         SwingUtilities.invokeLater(() -> {
-            new VistaDocenteGUI(controlador);
+            new VistaPrincipal().setVisible(true);
         });
         
     
